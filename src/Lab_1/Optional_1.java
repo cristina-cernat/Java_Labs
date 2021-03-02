@@ -5,10 +5,10 @@ public class Optional_1 {
 
         if(!visited[position]) {
             visited[position] = true;
+            System.out.print(position + 1 + " ");
             for(int i = 0; i < matrix.length; i++) {
                 if(matrix[position][i] && !visited[i]) {
                     DFS(matrix, i, visited);
-
                 }
             }
         }
@@ -31,6 +31,7 @@ public class Optional_1 {
         n = Integer.parseInt(args[0]);
         boolean[][] matrix = new boolean[n][n];     // my matrix
 
+        // Generate matrix
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++)
                 if (i != j) {
@@ -42,28 +43,25 @@ public class Optional_1 {
                 } else matrix[i][i] = false;
         }
 
-
-
-        // Connected graph
+        // Connected graph or not
         boolean isConnected;
-        boolean[] visited = new boolean[matrix.length];
-        boolean[][] newMatrix = {{false, false, true}, {false, false, true}, {true, true, false}};
+        boolean [] visited = new boolean[matrix.length];
 
-        DFS(newMatrix, 0, visited);
-
-        int count = 0;
-        for (int i = 0; i < matrix.length; i ++) {
-            if (visited[i]) {
-                count++;
+        int componentSum = 0;
+        for(int i = 0; i < matrix.length; i++) {
+            if(!visited[i]) {
+                System.out.println("Component: ");
+                DFS(matrix,i,visited);
+                ++componentSum;
             }
         }
 
-        isConnected = matrix.length == count;
+        isConnected = componentSum == 1;
 
         if(isConnected)
-            System.out.println("The graph is connected");
+            System.out.println("\nThe graph is connected");
         else
-            System.out.println("The graph is NOT connected");
+            System.out.println("\nThe graph is NOT connected");
 
         long endTime = System.nanoTime();
         long totalTime = endTime - startTime;
