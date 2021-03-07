@@ -12,11 +12,10 @@ public class Main {
 
         // Basic initializations
 
-        Source s1 = new Source();
+        Warehouse s1 = new Warehouse();
         s1.setName("S1");
-        s1.setType(WAREHOUSE);
-        Source s2 = new Source("S2", FACTORY);
-        Source s3 = new Source("S3", FACTORY);
+        Factory s2 = new Factory("S2");
+        Factory s3 = new Factory("S3");
 
 
         Destination d1 = new Destination("D1");

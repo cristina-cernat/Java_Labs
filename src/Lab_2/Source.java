@@ -1,15 +1,13 @@
 package Lab_2;
 
-public class Source {
+public abstract class Source {
     private String name;
-    private SourceType type;
 
     public Source() {
     }
 
-    public Source(String name, SourceType type) {
+    public Source(String name) {
         this.name = name;
-        this.type = type;
     }
 
     // Getters + setters
@@ -22,18 +20,21 @@ public class Source {
         this.name = name;
     }
 
-    public SourceType getType() {
-        return type;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Source)) {
+            return false;
+        }
+        Source other = (Source) obj;
+        return name.equals(other.name);
     }
 
-    public void setType(SourceType type) {
-        this.type = type;
-    }
 
     @Override
     public String toString() {
         return
-                "name=" + name +
-                        ", type=" + type;
+                "name=" + name;
     }
+
+
 }
