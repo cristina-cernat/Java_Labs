@@ -7,6 +7,7 @@ import java.time.LocalTime;
 
 public class Church extends Location implements Visitable, Classifiable {
     private String rank;
+    private LocalTime openingTime, closingTime;
 
     public Church() {
         Visitable.super.defaultSchedule();
@@ -43,30 +44,30 @@ public class Church extends Location implements Visitable, Classifiable {
     }
 
     @Override
-    public void setOpeningTime(LocalTime openingTime) {
-
-    }
-
-    @Override
-    public void setClosingTime(LocalTime closingTime) {
-
-    }
-
-    @Override
     public LocalTime getOpeningTime() {
-        return null;
+        return openingTime;
+    }
+
+    public void setOpeningTime(LocalTime openingTime) {
+        this.openingTime = openingTime;
     }
 
     @Override
     public LocalTime getClosingTime() {
-        return null;
+        return closingTime;
+    }
+
+    public void setClosingTime(LocalTime closingTime) {
+        this.closingTime = closingTime;
     }
 
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
         str.append(super.getName()).append("\n");
-        str.append("rank = ").append(rank).append("\n");
+        str.append("rank = ").append(rank).append("\n")
+                .append("openingTime = ").append(openingTime)
+                .append(", closingTime = ").append(closingTime).append("\n");
         return str.toString();
     }
 }

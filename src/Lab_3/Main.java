@@ -1,6 +1,11 @@
 package Lab_3;
 
+import Lab_3.Interfaces.Visitable;
+
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 public class Main {
     public static void main(String[] args) {
@@ -34,8 +39,27 @@ public class Main {
 
         v2.setOpeningTime(LocalTime.of(9, 30));
         v2.setClosingTime(LocalTime.parse("17:00"));
+        v4.setOpeningTime(LocalTime.of(8, 30));
 
         System.out.println(c1);
+
+        System.out.println("Locations that are Visitable but not Payable:");
+        c1.printVisitable();
+
+        System.out.println("Duration of the Hotel 1 is:");
+        System.out.println(Visitable.getVisitingDuration(v1));
+
+        PriorityQueue<Location> preferenceList = new PriorityQueue<>();
+        preferenceList.add(v1);
+        preferenceList.add(v3);
+//        preferenceList.add(v5);
+//        preferenceList.add(v2);
+//        preferenceList.add(v4);
+//        preferenceList.add(v6);
+
+        TravelPlan travelPlan = new TravelPlan(c1, preferenceList);
+        System.out.println("TRAVEL PLAN:");
+        System.out.println(travelPlan);
 
     }
 }

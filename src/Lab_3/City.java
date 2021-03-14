@@ -1,6 +1,10 @@
 package Lab_3;
 
+import Lab_3.Interfaces.Payable;
+import Lab_3.Interfaces.Visitable;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class City {
@@ -20,7 +24,7 @@ public class City {
         this.name = name;
     }
 
-    public List<Location> getList() {
+    public List<Location> getNodes() {
         return nodes;
     }
 
@@ -37,4 +41,26 @@ public class City {
         }
         return str.toString();
     }
+
+    /**
+     * <p>This method displays the locations that are visitable and not payable
+     */
+    public void printVisitable() {
+
+        List<Location> temp = new ArrayList<>();
+        for(Location location : nodes) {
+            if(location instanceof Visitable && !(location instanceof Payable)) {
+                temp.add(location);
+            }
+        }
+        Collections.sort(temp);
+
+        for(Location l : temp) {
+            System.out.println(l);
+        }
+
+    }
+
+
+
 }
