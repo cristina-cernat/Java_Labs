@@ -14,24 +14,27 @@ public class Main {
             System.err.println(e.toString());
         }
 
-    }
-
-    private void testLoadView() throws InvalidCatalogException {
-        Catalog catalog = CatalogUtil.load("D:/0.Uni/Java/Other/catalog.txt");
-        CatalogUtil.view(catalog.findById("bestSong"));
+        Shell shell = Shell.getInstance();
+        shell.execute();
     }
 
     private void testCreateSave() throws IOException {
         Catalog catalog = new Catalog("My Books",
                 "D:/0.Uni/Java/Other/catalog.txt");
 
-        Item song = new Song("bestSong");
-        song.setLocation("D:/Musicc/Nyarons_Orange.mp3");
-        Item book = new Book("bestBook");
+        Item song = new Song("1", "Orange", "D:/Musicc/Nyarons_Orange.mp3");
+        Item book = new Book("2");
         book.setLocation("D:/0.Uni/Java/Other/Cristian_Frasinaru-Curs_practic_de_Java.pdf");
         catalog.add(song);
         catalog.add(book);
 
         CatalogUtil.save(catalog);
     }
+
+    private void testLoadView() throws InvalidCatalogException {
+        Catalog catalog = CatalogUtil.load("D:/0.Uni/Java/Other/catalog.txt");
+        CatalogUtil.view(catalog.findById("2"));
+    }
+
+
 }

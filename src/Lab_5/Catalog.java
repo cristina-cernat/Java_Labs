@@ -7,9 +7,17 @@ import java.util.List;
 public class Catalog implements Serializable {
     private String name;
     private String path;
-    private final List<Item> items = new ArrayList<>();
+    ArrayList<Item> items;
+    private static Catalog instance;
+    
+    public static Catalog getInstance()
+    {
+        if (instance == null)
+            instance = new Catalog();
 
-    public Catalog() {}
+        return instance;
+    }
+    public Catalog() {items = new ArrayList<>();}
     public Catalog(String name, String path) {
         this.name = name;
         this.path = path;
