@@ -5,9 +5,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class ControlPanel extends JPanel {
     final MainFrame frame;
@@ -15,8 +18,9 @@ public class ControlPanel extends JPanel {
     JButton loadBtn = new JButton("Load");
     JButton resetBtn = new JButton("Reset");
     JButton exitBtn = new JButton("Exit");
+    JButton eraseBtn = new JButton("Erase");
 
-    JFileChooser fileChooser = new JFileChooser(); // TODO
+    JFileChooser fileChooser = new JFileChooser();
 
     public ControlPanel(MainFrame frame) {
         this.frame = frame;
@@ -24,15 +28,16 @@ public class ControlPanel extends JPanel {
     }
 
     private void init() {
-        //change the default layout manager (just for fun)
         setLayout(new GridLayout(1, 4));
 
         add(saveBtn);
         add(loadBtn);
         add(resetBtn);
         add(exitBtn);
+        add(eraseBtn);
 
         saveBtn.addActionListener(this::save);
+        eraseBtn.addActionListener(this::erase);
 
         exitBtn.addActionListener(new ActionListener() {
             @Override
@@ -68,28 +73,8 @@ public class ControlPanel extends JPanel {
                         frame.canvas.repaint();
 
 
-                    }catch(IOException ignored) {
-
-                    }
-                }
-            }
-
-        });
-
-        saveBtn.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-
-                int returnVal = fileChooser.showSaveDialog(frame);
-
-                if(returnVal == JFileChooser.APPROVE_OPTION) {
-                    File fileToSave = fileChooser.getSelectedFile();
-                    try {
-                        ImageIO.write((BufferedImage) frame.canvas.image, "png", new File(fileToSave.getAbsolutePath()));
-
-                    }catch(IOException ignored) {
-
+                    }catch(IOException e) {
+                        System.err.println("Could not load." + e.toString());
                     }
                 }
             }
@@ -97,12 +82,66 @@ public class ControlPanel extends JPanel {
         });
 
     }
+
     private void save(ActionEvent e) {
-        try {
-            ImageIO.write(frame.canvas.image, "PNG", new File("d:/test.png"));
-        } catch (IOException ex) { System.err.println(ex); }
+
+        int returnVal = fileChooser.showSaveDialog(frame);
+
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try {
+                ImageIO.write((BufferedImage) frame.canvas.image,
+                        "png", new File(fileToSave.getAbsolutePath()));
+
+            }catch(IOException ex) {
+                System.err.println("Could not save." + ex.toString());
+            }
+        }
     }
 
+    private void erase(ActionEvent e) {
+
+// TODO finish erase button
+
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent event) {
+                int x = event.getX();
+                int y = event.getY();
+                getClickedLine(x, y);
+                repaint();
+            }
+        });
+    }
+
+    public void getClickedLine(int x, int y) {
+        // hitbox sizes:
+
+        int hitboxX = x - 40;
+        int hitboxY = y - 40;
+
+        int width = 40;
+        int height = 40;
+
+        for (RegularPolygon poly : frame.canvas.getShapeList()) {
+            if(poly.intersects(hitboxX, hitboxY, width, height)) {
+                System.out.println("intersects!");
+                removeShape(poly);
+            }
+        }
+    }
+
+    public void removeShape(RegularPolygon shape) {
+        Iterator<RegularPolygon> it = frame.canvas.getShapeList().iterator();
+        while(it.hasNext()) {
+            RegularPolygon selectedShape = it.next();
+            if(selectedShape.equals(shape)) {
+                it.remove();
+                repaint();
+            }
+        }
+    }
 
 }
 
