@@ -1,5 +1,7 @@
 package Lab_2;
 
+import Lab_12.Cris;
+
 public class Factory extends Source{
     public Factory() {}
     public Factory(String name) {
@@ -16,4 +18,13 @@ public class Factory extends Source{
         return super.getName();
     }
 
+
+    @Cris
+    public static void printHello(){
+        System.out.println("Hello there...");
+    }
+
+    public static int Add(int a, int b) {
+        return a+b;
+    }
 }
